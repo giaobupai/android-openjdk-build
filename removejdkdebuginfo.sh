@@ -1,6 +1,4 @@
 #!/bin/bash
-set -e
-
 . setdevkitpath.sh
 
 imagespath=openjdk/build/${JVM_PLATFORM}-${TARGET_JDK}-${JVM_VARIANTS}-${JDK_DEBUG_LEVEL}/images
@@ -9,10 +7,10 @@ rm -rf dizout jreout jdkout dSYM-temp
 mkdir -p dizout dSYM-temp/{lib,bin}
 
 if [[ "$BUILD_IOS" != "1" ]]; then
-   cp freetype-$BUILD_FREETYPE_VERSION/build_android-$TARGET_SHORT/lib/libfreetype.so $imagespath/jdk/lib/
+ cp freetype-$BUILD_FREETYPE_VERSION/build_android-"$TARGET_SHORT"/lib/libfreetype.so "$imagespath"/jdk/lib/
 fi
 
-cp -r $imagespath/jdk jdkout
+cp -r "$imagespath"/jdk jdkout
 
 # JDK no longer create separate JRE image, so we have to create one manually.
 #mkdir -p jreout/bin
@@ -26,10 +24,7 @@ if [[ "$TARGET_JDK" == "aarch64" ]] || [[ "$TARGET_JDK" == "x86_64" ]]; then
    echo "Building for aarch64 or x86_64, introducing JVMCI module"
    export EXTRA_JLINK_OPTION=,jdk.internal.vm.ci
 fi
-
-export EXTRA_JLINK_OPTION=
-
-   echo "introducing JVMCI module"
+   echo "jdk incubator vector module"
    export EXTRA_JLINK_OPTION=,jdk.incubator.vector
 
 # Produce the jre equivalent from the jdk (https://blog.adoptium.net/2021/10/jlink-to-produce-own-runtime/)
@@ -44,7 +39,7 @@ jlink \
 --compress=0
 
 if [[ "$BUILD_IOS" != "1" ]]; then
-   cp freetype-$BUILD_FREETYPE_VERSION/build_android-$TARGET_SHORT/lib/libfreetype.so jreout/lib/
+ cp freetype-"$BUILD_FREETYPE_VERSION"/build_android-"$TARGET_SHORT"/lib/libfreetype.so jreout/lib/
 fi
 
 # mv jreout/lib/${TARGET_JDK}/libfontmanager.diz jreout/lib/${TARGET_JDK}/libfontmanager.diz.keep
@@ -54,7 +49,7 @@ fi
 #find jdkout -name "*.debuginfo" | xargs -- rm
 find jdkout -name "*.debuginfo" -exec mv {}   dizout/ \;
 
-find jdkout -name "*.dSYM"  | xargs -- rm -rf
+find jdkout -iname "*.dSYM" -delete
 
 #TODO: fix .dSYM stuff
 
