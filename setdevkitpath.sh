@@ -7,21 +7,21 @@ if [[ -z "${BUILD_FREETYPE_VERSION:-}" ]]; then
   export BUILD_FREETYPE_VERSION="2.12.1"
 fi
 
-if [ -z "${JDK_DEBUG_LEVEL:-}" ]; then
+if [[ -z "${JDK_DEBUG_LEVEL:-}" ]]; then
   export JDK_DEBUG_LEVEL=release
 fi
 
-if [ "${TARGET_JDK:-}" == "aarch64" ]; then
+if [[ "${TARGET_JDK:-}" == "aarch64" ]]; then
   export TARGET_SHORT=arm64
 else
   export TARGET_SHORT=$TARGET_JDK
 fi
 
-if [ -z "${JVM_VARIANTS:-}" ]; then
+if [[ -z "${JVM_VARIANTS:-}" ]]; then
   export JVM_VARIANTS=server
 fi
 
-if [ "${BUILD_IOS:=0}" == "1" ]; then
+if [[ "${BUILD_IOS:=0}" == "1" ]]; then
   export JVM_PLATFORM=macosx
 
   export thecc=$(xcrun -find -sdk iphoneos clang)
