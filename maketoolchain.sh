@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+
 . setdevkitpath.sh
 
 $NDK/build/tools/make-standalone-toolchain.sh \
