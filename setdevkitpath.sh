@@ -1,10 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
-export NDK_VERSION=r25b
+export NDK_VERSION=r26b
 
 if [[ -z "${BUILD_FREETYPE_VERSION:-}" ]]; then
-  export BUILD_FREETYPE_VERSION="2.12.1"
+  export BUILD_FREETYPE_VERSION="2.13.2"
 fi
 
 if [[ -z "${JDK_DEBUG_LEVEL:-}" ]]; then
