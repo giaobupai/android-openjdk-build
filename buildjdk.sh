@@ -14,10 +14,10 @@ else
   fi
 fi
 
-# if [[ "$TARGET_JDK" == "aarch32" ]] || [[ "$TARGET_JDK" == "aarch64" ]]
-# then
-#   export CFLAGS+=" -march=armv7-a+neon"
-# fi
+if [[ "$TARGET_JDK" == "aarch32" ]] || [[ "$TARGET_JDK" == "aarch64" ]]
+then
+  export CFLAGS+=" -march=armv7-a+neon"
+fi
 
 # It isn't good, but need make it build anyways
 # cp -R $CUPS_DIR/* $ANDROID_INCLUDE/
