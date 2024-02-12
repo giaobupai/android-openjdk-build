@@ -27,6 +27,7 @@ if [[ "$BUILD_IOS" != "1" ]]; then
   ln -s -f /usr/include/fontconfig "$ANDROID_INCLUDE"/
   platform_args="--with-freetype-include="$FREETYPE_DIR"/include/freetype2 \
     --with-freetype-lib="$FREETYPE_DIR"/lib \
+    --openjdk-target \
     --build=x86_64-unknown-linux-gnu \
     --build=aarch64-unknown-linux-gnu"
   AUTOCONF_x11arg="--x-includes="$ANDROID_INCLUDE"/X11"
