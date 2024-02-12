@@ -6,7 +6,7 @@ export FREETYPE_DIR=$PWD/freetype-$BUILD_FREETYPE_VERSION/build_android-$TARGET_
 export CUPS_DIR=$PWD/cups-2.4.7
 export CFLAGS+=" -DLE_STANDALONE -DANDROID -pipe -integrated-as -fno-plt -Ofast -flto -mllvm -polly -mllvm -polly-vectorizer=stripmine -mllvm -polly-invariant-load-hoisting -mllvm -polly-run-inliner -mllvm -polly-run-dce"
 if [[ "$TARGET_JDK" == "arm" ]]; then
-  export CFLAGS+="-O3 -D__thumb__"
+  export CFLAGS+="-D__thumb__"
 fi
 
 # if [[ "$TARGET_JDK" == "aarch32" ]] || [[ "$TARGET_JDK" == "aarch64" ]]
@@ -27,9 +27,7 @@ if [[ "$BUILD_IOS" != "1" ]]; then
   ln -s -f /usr/include/fontconfig "$ANDROID_INCLUDE"/
   platform_args="--with-freetype-include="$FREETYPE_DIR"/include/freetype2 \
     --with-freetype-lib="$FREETYPE_DIR"/lib \
-    --openjdk-target \
-    --build=x86_64-unknown-linux-gnu \
-    --build=aarch64-unknown-linux-gnu"
+       "
   AUTOCONF_x11arg="--x-includes="$ANDROID_INCLUDE"/X11"
 
   export CFLAGS+=" -DANDROID"
