@@ -23,7 +23,6 @@ fi
 
 # Some modifies to NDK to fix
 
-sudo chmod 777 getbootjdk.sh
 sudo chmod 777 getlibs.sh
 sudo chmod 777 buildlibs.sh
 sudo chmod 777 clonejdk.sh
