@@ -56,7 +56,7 @@ else
     ln -s -f /usr/local/include/fontconfig $ANDROID_INCLUDE/
   fi
   platform_args="--with-toolchain-type=clang --with-sysroot=$(xcrun --sdk iphoneos --show-sdk-path) \
-    --with-boot-jdk=$(/usr/libexec/java_home -v 17) \
+    --with-boot-jdk=$(/usr/libexec/java_home -v 11) \
     --with-freetype=bundled \
     "
   AUTOCONF_x11arg="--with-x=/opt/X11/include/X11 --prefix=/usr/lib"
@@ -72,20 +72,6 @@ fi
 ln -s -f $CUPS_DIR/cups $ANDROID_INCLUDE/
 
 cd openjdk
-
-# Apply patches
-git reset --hard
-if [[ "$BUILD_IOS" != "1" ]]; then
-  git apply --reject --whitespace=fix ../patches/jdk17u_android.diff || echo "git apply failed (Android patch set)"
-else
-  git apply --reject --whitespace=fix ../patches/jdk17u_ios.diff || echo "git apply failed (iOS patch set)"
-
-  # Hack: exclude building macOS stuff
-  desktop_mac=src/java.desktop/macosx
-  mv ${desktop_mac} ${desktop_mac}_NOTIOS
-  mkdir -p ${desktop_mac}/native
-  mv ${desktop_mac}_NOTIOS/native/libjsound ${desktop_mac}/native/
-fi
 
 # rm -rf build
 
@@ -125,7 +111,7 @@ if [[ "$BUILD_IOS" == "1" ]]; then
   jobs=$(sysctl -n hw.ncpu)
 fi
 
-cd build/${JVM_PLATFORM}-${TARGET_JDK}-${JVM_VARIANTS}-${JDK_DEBUG_LEVEL}
+cd build/${JVM_PLATFORM}-${TARGET_JDK}-normal-${JVM_VARIANTS}-${JDK_DEBUG_LEVEL}
 make JOBS=$jobs images || \
 error_code=$?
 if [[ "$error_code" -ne 0 ]]; then
