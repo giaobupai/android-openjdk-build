@@ -23,7 +23,7 @@ jobs:
       uses: actions/setup-java@v4
       with:
         java-version: 11.0.2
-        distribution: dragonwell
+        distribution: microsoft
     - name: Install build dependencies
       run: |
         sudo apt update
