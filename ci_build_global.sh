@@ -18,6 +18,7 @@ fi
 
 # Some modifies to NDK to fix
 
+./getbootjdk.sh
 ./getlibs.sh
 ./buildlibs.sh
 ./clonejdk.sh
