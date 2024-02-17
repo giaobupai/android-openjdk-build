@@ -41,7 +41,7 @@ if [[ "$BUILD_IOS" != "1" ]]; then
 
   export CFLAGS+=" -DANDROID"
   export LDFLAGS+=" -L$PWD/dummy_libs" 
-  export BOOT_JDK=$PWD/jdk-20
+  export BOOT_JDK=$PWD/jdk-23
 
 # Create dummy libraries so we won't have to remove them in OpenJDK makefiles
   mkdir -p dummy_libs
