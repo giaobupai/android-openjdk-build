@@ -3,7 +3,7 @@ set -e
 
 . setdevkitpath.sh
 
-targetpath=openjdk/build/${JVM_PLATFORM}-${TARGET_JDK}-normal-${JVM_VARIANTS}-${JDK_DEBUG_LEVEL}
+targetpath=openjdk/build/${JVM_PLATFORM}-${TARGET_JDK}-${JVM_VARIANTS}-${JDK_DEBUG_LEVEL}
 
 rm -rf dizout jreout jdkout dSYM-temp
 mkdir -p dizout dSYM-temp/{lib,bin}
