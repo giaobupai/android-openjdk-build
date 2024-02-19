@@ -55,8 +55,8 @@ fi
   export CPPFLAGS="-I$ANDROID_INCLUDE -I$ANDROID_INCLUDE/$TARGET"
   export LDFLAGS="-L$NDK/platforms/android-$API/arch-$TARGET_SHORT/usr/lib"
 
-  export thecc=$TOOLCHAIN/bin/$TARGET$API-clang
-  export thecxx=$TOOLCHAIN/bin/$TARGET$API-clang++
+export thecc=$TOOLCHAIN/bin/${TARGET}${API}-clang
+export thecxx=$TOOLCHAIN/bin/${TARGET}${API}-clang++
 
   # Configure and build.
   export AR=$TOOLCHAIN/bin/llvm-ar
