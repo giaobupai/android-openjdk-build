@@ -5,7 +5,7 @@ set -euo pipefail
 export FREETYPE_DIR=$PWD/freetype-$BUILD_FREETYPE_VERSION/build_android-$TARGET_SHORT
 export CUPS_DIR=$PWD/cups-2.4.7
 export CFLAGS+=" -DLE_STANDALONE -DANDROID -pipe -integrated-as -fno-plt -Ofast -flto -mllvm -polly -mllvm -polly-vectorizer=stripmine -mllvm -polly-invariant-load-hoisting -mllvm -polly-run-inliner -mllvm -polly-run-dce" # -I"$FREETYPE_DIR" -I"$CUPS_DI"
-if [[ "$TARGET_JDK" == "arm" ]] # || [[ "$BUILD_IOS" == "1" ]]
+if [[ "$TARGET_JDK" == "arm" ]]
 then
   export CFLAGS+=" -D__thumb__"
 else
@@ -14,10 +14,10 @@ else
   fi
 fi
 
-if [[ "$TARGET_JDK" == "aarch32" ]] || [[ "$TARGET_JDK" == "aarch64" ]]
-then
-  export CFLAGS+=" -march=armv7-a+neon"
-fi
+#if [[ "$TARGET_JDK" == "aarch32" ]] || [[ "$TARGET_JDK" == "aarch64" ]]
+#then
+#  export CFLAGS+=" -march=armv7-a+neon"
+#fi
 
 # It isn't good, but need make it build anyways
 # cp -R $CUPS_DIR/* $ANDROID_INCLUDE/
@@ -34,6 +34,10 @@ if [[ "$BUILD_IOS" != "1" ]]; then
     --with-freetype-lib=$FREETYPE_DIR/lib \
     "
   AUTOCONF_x11arg="--x-includes="$ANDROID_INCLUDE"/X11"
+  AUTOCONF_EXTRA_ARGS+="OBJCOPY=$OBJCOPY \
+    AR=$AR \
+    STRIP=$STRIP \
+    "
 
   export CFLAGS+=" -DANDROID"
   export LDFLAGS+=" -L$PWD/dummy_libs"
@@ -53,7 +57,7 @@ else
     ln -s -f /usr/local/include/fontconfig "$ANDROID_INCLUDE"/
   fi
   platform_args="--with-sysroot=$(xcrun --sdk iphoneos --show-sdk-path) \
-    --with-boot-jdk=$(/usr/libexec/java_home -v 17) \
+    --with-boot-jdk=$(/usr/libexec/java_home -v 21) \
     --with-freetype=bundled"
   AUTOCONF_x11arg="--with-x=/opt/X11/include/X11 --prefix=/usr/lib"
   sameflags="-arch arm64 -DHEADLESS=1 -I$PWD/ios-missing-include -Wno-implicit-function-declaration -DTARGET_OS_OSX"
@@ -72,7 +76,7 @@ cd openjdk
 # Apply patches
 git reset --hard
 if [[ "$BUILD_IOS" != "1" ]]; then
-  git apply --reject --whitespace=fix ../patches/jdk17u_android.diff || echo "git apply failed (Android patch set)"
+  git apply --reject --whitespace=fix ../patches/jdk21u_android.diff || echo "git apply failed (Android patch set)"
 else
   git apply --reject --whitespace=fix ../patches/jdk17u_ios.diff || echo "git apply failed (iOS patch set)"
 
